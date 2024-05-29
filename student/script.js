@@ -3,6 +3,7 @@ const studentIdInput = document.getElementById('studentId');
 const form = document.getElementById('attendance-form');
 const resultDiv = document.getElementById('result');
 const calendarDiv = document.getElementById('calendar');
+const loadingEle = document.getElementById("loading");
 
 // Constants
 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -12,7 +13,7 @@ let dates = {};
 // Event Listener
 form.addEventListener('submit', handleFormSubmit);
 const stdId = new URL(window.location).searchParams.get('stdId');
-if(stdId){
+if (stdId) {
     studentIdInput.value = stdId;
     fetchStudentData(stdId);
 }
@@ -37,6 +38,7 @@ function handleFormSubmit(e) {
  * @param {string} studentId - The student ID.
  */
 async function fetchStudentData(studentId) {
+    loadingEle.style.display = 'flex';
     // Mock server call
     // google.script.run.withSuccessHandler((result) => {
     //     const responseData = JSON.parse(result);
@@ -56,10 +58,13 @@ async function fetchStudentData(studentId) {
         .then((response) => response.json())
         .then((result) => {
             renderStudentDetails(result);
+
+            loadingEle.style.display = 'none';
         })
         .catch((error) => {
             resultDiv.innerHTML = `<p>Error :  No Data Found, enter correct student id and try again.</p>`;
             console.error(error);
+            loadingEle.style.display = 'none';
         });
 }
 
