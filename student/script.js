@@ -11,6 +11,11 @@ let dates = {};
 
 // Event Listener
 form.addEventListener('submit', handleFormSubmit);
+const stdId = new URL(window.location).searchParams.get('stdId');
+if(stdId){
+    studentIdInput.value = stdId;
+    fetchStudentData(stdId);
+}
 /**
  * Handle form submission.
  * @param {Event} e - The form submit event.
