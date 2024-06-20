@@ -118,6 +118,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           });
       } else {
         alert("wrong url copied try againg with correct url");
+        showLoading(false);
       }
     }
   
