@@ -19,13 +19,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const URL = "https://script.google.com/macros/s/AKfycbwvFkdNynv7uA3xAH7KzE4a8bHY-ebBJM1H_ld6vxA3/dev";
     const TOKEN = "	ya29.a0AXooCgsgXq05V8l_eHSegnGe99fOoJXm3UFcyBHGO64k5Qs9FIaIH4NawLSEBA3wqb6az9MxxZswdqFhpxAbGj3yoCoI96LThsF6Ej4XUZwZov7JcQnbQJ7eIM0kj54y7mcUkChJYM8fGIPhYoUEicmmjI0R9Vdiu3QJaCgYKAX4SARASFQHGX2Mix_sD2evDwEpxVL-3tIejTg0171";
 
-    let SECRETE_CODE;
+    let SECRETE_CODE = localStorage.getItem('code');
     let FINAL_URL;
+
     getKeyFromUser();
 
     function getKeyFromUser() {
         while (!SECRETE_CODE || SECRETE_CODE.length <= 3) {
             SECRETE_CODE = prompt("Enter your Secrete Code?");
+            localStorage.setItem('code', SECRETE_CODE);
         }
         FINAL_URL = isDev ? `${URL}?access_token=${TOKEN}&secret_key=${SECRETE_CODE}` : `${URL_PRODUCTION}?secret_key=${SECRETE_CODE}`;
 
@@ -51,6 +53,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Display the student list
                 displayStudentsCards(students, 60);
 
+            })
+            .then(()=>{
+                const search_params = new URLSearchParams(window.location.search);
+                if(search_params.has('stdId')){
+                    const id = search_params.get('stdId');
+                    searchInput.value = id;
+                    filterList(id);
+                }
             })
             .catch(error => console.error('Error fetching student data:', error))
             .finally(() => {
@@ -252,8 +262,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     searchInput.addEventListener('input', e => {
         const searchTerm = e.target.value.toLowerCase();
-        let filteredStudents = students.filter(student => (student.id.toString().includes(searchTerm) || student.name.toLowerCase().includes(searchTerm)));
-
-        displayStudentsCards(filteredStudents, filteredStudents.length);
+        filterList(searchTerm);
     });
+    
+    function filterList(searchTerm){
+        let filteredStudents = students.filter(student => (student.id.toString().includes(searchTerm) || student.name.toLowerCase().includes(searchTerm)));
+        displayStudentsCards(filteredStudents, filteredStudents.length);
+    }
 });

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Enrollment</title>
+    <style>
+        /* Basic styling for the page and elements */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        #student-enrollment-details {
+            margin-top: 20px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation-name: modalopen;
+            animation-duration: 0.4s;
+            border-radius: 10px;
+        }
+
+        @keyframes modalopen {
+            from {
+                top: -300px;
+                opacity: 0;
+            }
+
+            to {
+                top: 0;
+                opacity: 1;
+            }
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+        #student-id {
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        #searchBtn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .input-field {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .custom-alert {
+            background-color: #f44336;
+            color: white;
+            padding: 15px;
+            margin: 10px 0;
+            display: none;
+            border-radius: 5px;
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #333;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .submit-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <input type="text" id="student-id" placeholder="Enter Student ID">
+    <button id="searchBtn">Search</button>
+    <div id="loadingIndicator" class="loading-spinner"></div>
+    <div id="student-enrollment-details" class="enrollment-details">
+
+        <!-- Modal Structure -->
+        <div id="addStudentModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Add Student Information</h2>
+                <div id="student-enrollment-details-modal">
+                    <div class="form-group">
+                        <label for="profileUrl">Profile URL</label>
+                        <input type="text" id="profileUrl" class="input-field" placeholder="Paste link here">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Four Digit Password</label>
+                        <input type="password" id="password" class="input-field" placeholder="Enter 4-digit password">
+                    </div>
+                    <div class="form-group">
+                        <label for="remarks">Remarks</label>
+                        <textarea id="remarks" class="input-field" placeholder="Enter remarks"></textarea>
+                    </div>
+                    <button class="submit-btn" id="submitBtn">Submit Form</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Alert Box -->
+        <div id="custom-alert" class="custom-alert"></div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const searchBtn = document.getElementById("searchBtn");
+                const enrollmentDiv = document.getElementById("student-enrollment-details");
+                const loadingIndicator = document.getElementById("loadingIndicator");
+                const studentIdInput = document.getElementById("student-id");
+                const customAlert = document.getElementById("custom-alert");
+                const addStudentModal = document.getElementById("addStudentModal");
+                const modalContentDiv = document.getElementById("student-enrollment-details-modal");
+                const closeModal = document.getElementsByClassName("close")[0];
+                const submitBtnModal = document.getElementById("submitBtn");
+                let enrollmentData, sidData;
+                const url = "https://script.google.com/macros/s/AKfycbx0n1pb0MvYHKKZHBSH_j4hIL6MGjjYkCvjTK5-OehH3Cn9pDzTSxs7aznNMLJPl8Nc/exec";
+
+                studentIdInput.focus();
+                studentIdInput.addEventListener("keydown", restrictInputToDigits);
+
+                searchBtn.addEventListener("click", async function () {
+                    const studentId = studentIdInput.value.trim();
+                    const profileUrl = await readClipboard();
+                    if (validateStudentId(studentId)) {
+                        toggleLoadingIndicator(true);
+                        fetchStudentData(studentId)
+                            .then(data => {
+                                displayStudentDetails(data);
+                                enrollmentData = data.data;
+                                return profileUrl;
+                            })
+                            .then(profileUrl => {
+                                displayRegistrationInfo(profileUrl);
+                                openAddStudentModal(); // Call function to open the modal
+                            })
+                            .catch(error => {
+                                console.error("Error fetching data:", error);
+                                showCustomAlert("An error occurred while fetching data. Please try again.");
+                            })
+                            .finally(() => {
+                                toggleLoadingIndicator(false);
+                            });
+                    } else {
+                        alert("Please enter a valid student ID (4 digits).");
+                    }
+                });
+
+                function openAddStudentModal() {
+                    addStudentModal.style.display = "block";
+                }
+
+                function toggleLoadingIndicator(isLoading) {
+                    loadingIndicator.style.display = isLoading ? "block" : "none";
+                }
+
+                function restrictInputToDigits(e) {
+                    if (e.key === "Backspace") return;
+                    if (!/^\d$/.test(e.key) || e.target.value.length >= 4) {
+                        e.preventDefault();
+                    }
+                }
+
+                function validateStudentId(studentId) {
+                    return /^\d{4}$/.test(studentId);
+                }
+
+                async function readClipboard() {
+                    try {
+                        return await navigator.clipboard.readText();
+                    } catch (e) {
+                        console.error("Error reading clipboard:", e);
+                        return "";
+                    }
+                }
+
+                function fetchStudentData(studentId) {
+                    return fetch(`${url}?studentId=${studentId}`)
+                        .then(response => response.json());
+                }
+
+                function displayStudentDetails(data) {
+                    enrollmentDiv.innerHTML = "";
+
+                    if (data.status !== 200) {
+                        enrollmentDiv.innerHTML = `<p>Error: ${data.message}</p>`;
+                        return;
+                    }
+
+                    const studentData = data.data;
+                    const table = document.createElement("table");
+                    table.innerHTML = `
+        <thead>
+          <tr>
+            <th>Student Id</th>
+            <th>Temp Id</th>
+            <th>Student Name</th>
+            <th>Batch</th>
+            <th>Course</th>
+            <th>Mobile</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>${studentData.studentId}</td>
+            <td>${studentData.tempId}</td>
+            <td>${studentData.name}</td>
+            <td>${studentData.batch}</td>
+            <td>${studentData.course}</td>
+            <td>${studentData.mobile}</td>
+          </tr>
+        </tbody>
+      `;
+
+                    modalContentDiv.innerHTML = ""; // Clear previous content
+                    modalContentDiv.appendChild(table);
+                    modalContentDiv.appendChild(createLabel("Profile URL"));
+                    modalContentDiv.appendChild(createInputElement("profileUrl", "Paste link here", "text"));
+                    modalContentDiv.appendChild(createLabel("Four Digit Password"));
+                    modalContentDiv.appendChild(createInputElement("password", "Enter 4-digit password", "password"));
+                    modalContentDiv.appendChild(createLabel("Remarks"));
+                    modalContentDiv.appendChild(createRemarksElement());
+                    modalContentDiv.appendChild(submitBtnModal);
+
+                    addStudentModal.style.display = "block";
+                }
+
+                function createInputElement(id, placeholder, type) {
+                    const input = document.createElement("input");
+                    input.id = id;
+                    input.type = type;
+                    input.placeholder = placeholder;
+                    input.className = "input-field";
+                    return input;
+                }
+                function createLabel(text) {
+                    const label = document.createElement("label");
+                    label.textContent = text;
+                    return label;
+                }
+
+                function createRemarksElement() {
+                    const remarks = document.createElement("textarea");
+                    remarks.id = "remarks";
+                    remarks.placeholder = "Enter remarks";
+                    remarks.className = "input-field";
+                    return remarks;
+                }
+
+                submitBtnModal.addEventListener("click", finalSubmitForm);
+
+                function displayRegistrationInfo(profileUrl) {
+                    const linkIdMatch = profileUrl.match(/([^\/?]+)\?/);
+                    if (!linkIdMatch) {
+                        showCustomAlert("Invalid URL. Please try again with a correct URL.");
+                        return;
+                    }
+
+                    const linkId = linkIdMatch[1];
+                    toggleLoadingIndicator(true);
+                    fetch(`${url}?linkId=${linkId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            sidData = data.Data;
+                            displayUserInfo(data);
+                        })
+                        .catch(error => {
+                            console.error("Error fetching user info:", error);
+                            showCustomAlert("An error occurred while fetching user info. Please try again.");
+                        })
+                        .finally(() => {
+                            toggleLoadingIndicator(false);
+                        });
+                }
+
+                function displayUserInfo(user) {
+                    const userData = user.Data;
+                    const userInfoHTML = `
+          <br><h2>User Information</h2>
+          <table class="user-info-table">
+            <tr>
+              <td><textarea placeholder="Reason for the ekyc pending." id="remarks" class="input-field"></textarea></td>
+            </tr>
+            <tr>
+              <td><strong>Name:</strong></td>
+              <td>${userData.FullName}</td>
+              <td rowspan="4"><img src="data:image/jpg;base64,${userData.Photo}" alt="Profile Photo"></td>
+            </tr>
+            <tr><td><strong>Mobile Number:</strong></td><td>${userData.MobileNumber}</td></tr>
+            ${userData.IsAadhaarVerified ? generateAddressHTML(userData.AddressDetails[0]) : '<tr><td style="color:red; font-weight: bold;">Aadhaar Ekyc is Pending.</td></tr>'}
+          </table>
+        `;
+                    modalContentDiv.innerHTML += userInfoHTML;
+                }
+
+                function generateAddressHTML(address) {
+                    return `
+          <tr><td><strong>Address Line 1:</strong></td><td>${address.AddressLine1}</td></tr>
+          <tr><td><strong>Address Line 2:</strong></td><td>${address.AddressLine2}</td></tr>
+          <tr><td><strong>Country:</strong></td><td>${address.Country}</td></tr>
+          <tr><td><strong>State:</strong></td><td>${address.State}</td></tr>
+          <tr><td><strong>District:</strong></td><td>${address.District}</td></tr>
+          <tr><td><strong>Village:</strong></td><td>${address.Village}</td></tr>
+          <tr><td><strong>Pin:</strong></td><td>${address.Pin}</td></tr>
+          <tr><td><strong>Landmark:</strong></td><td>${address.Landmark}</td></tr>
+          <tr><td><strong>Address Type:</strong></td><td>${address.AddressType}</td></tr>
+        `;
+                }
+
+                function finalSubmitForm() {
+                    const password = document.getElementById("password").value;
+                    const profileUrl = document.getElementById("profileUrl").value;
+                    const remarks = document.getElementById("remarks").value;
+
+                    if (!password || password.length !== 4 || !/^\d{4}$/.test(password)) {
+                        showCustomAlert("Please enter a valid 4-digit password.");
+                        return;
+                    }
+
+                    if (enrollmentData && sidData) {
+                        const formData = {
+                            studentId: enrollmentData.studentId,
+                            name: enrollmentData.name,
+                            batch: enrollmentData.batch,
+                            mobile: sidData.MobileNumber,
+                            password,
+                            profileUrl,
+                            aadharEkyc: sidData.IsAadhaarVerified,
+                            remarks,
+                            enrollmentData,
+                            sidData,
+                        };
+
+                        toggleLoadingIndicator(true);
+                        fetch(url, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(formData),
+                        })
+                            .then(res => res.text())
+                            .then(response => {
+                                showCustomAlert(response);
+                                closeAddStudentModal();
+                            })
+                            .catch(e => {
+                                console.error("Error submitting form:", e);
+                                showCustomAlert("An error occurred while submitting the form. Please try again.");
+                            })
+                            .finally(() => {
+                                toggleLoadingIndicator(false);
+                            });
+                    } else {
+                        showCustomAlert("All fields are important. Please check and try again.");
+                    }
+                }
+
+                function showCustomAlert(message) {
+                    customAlert.textContent = message;
+                    customAlert.style.display = "block";
+                    setTimeout(() => {
+                        customAlert.style.display = "none";
+                    }, 3000); // Hide alert after 3 seconds
+                }
+
+                function closeAddStudentModal() {
+                    addStudentModal.style.display = "none";
+                }
+
+                // Event listener for closing the modal
+                closeModal.addEventListener("click", closeAddStudentModal);
+
+                // Close the modal if user clicks outside the modal content
+                window.onclick = function (event) {
+                    if (event.target === addStudentModal) {
+                        closeAddStudentModal();
+                    }
+                };
+            });
+        </script>
+
+</body>
+
+</html>
