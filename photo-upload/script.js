@@ -14,10 +14,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const loadingEle = document.getElementById("loading");
     let cropper;
     let students = [];
-    let isDev = false;
+    let isDev = true;
     const URL_PRODUCTION = 'https://script.google.com/macros/s/AKfycbyLYkcxRE5PzYFYufV42EG1WSz4zAuoP8M2fB0u1GpEZEJo6AqTSUApxGnLUoZzzAVpnQ/exec';
     const URL = "https://script.google.com/macros/s/AKfycbwvFkdNynv7uA3xAH7KzE4a8bHY-ebBJM1H_ld6vxA3/dev";
-    const TOKEN = "	ya29.a0AXooCgsgXq05V8l_eHSegnGe99fOoJXm3UFcyBHGO64k5Qs9FIaIH4NawLSEBA3wqb6az9MxxZswdqFhpxAbGj3yoCoI96LThsF6Ej4XUZwZov7JcQnbQJ7eIM0kj54y7mcUkChJYM8fGIPhYoUEicmmjI0R9Vdiu3QJaCgYKAX4SARASFQHGX2Mix_sD2evDwEpxVL-3tIejTg0171";
+    const TOKEN = "ya29.a0AcM612xgsyIsFhn7TKlu_gf3B4dOTGXEAQ-9HwJYpN3wFtJ1_qNxqX_RVSjiAPlAf0X9DkUF3FpOC6biaVt_aNMvy1PkVYQp5WTaZRPZhTYnuObpLRDDEluTddBbbJ8vPsByKCcs0_-rG5rnTZosRT5ptb7XSM5_wEgmPvoNYgYaCgYKASASARASFQHGX2Mijk0TTbv-WWG_HHxgolvxWg0178";
 
     let SECRETE_CODE = localStorage.getItem('code');
     let FINAL_URL;
@@ -54,9 +54,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 displayStudentsCards(students, 60);
 
             })
-            .then(()=>{
+            .then(() => {
                 const search_params = new URLSearchParams(window.location.search);
-                if(search_params.has('stdId')){
+                if (search_params.has('stdId')) {
                     const id = search_params.get('stdId');
                     searchInput.value = id;
                     filterList(id);
@@ -88,7 +88,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const img = document.createElement("img");
         img.src = student.profileImage;
         img.alt = `${student.name}'s profile picture`;
-        img.onclick = () => open(student.profileImage, '_blank');
+        img.loading = "lazy";
+        img.onclick = () => open(student.profileImage.replace('w80', 'w350'), '_blank');
         img.style.cursor = 'pointer';
 
         const content = document.createElement("div");
@@ -264,8 +265,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const searchTerm = e.target.value.toLowerCase();
         filterList(searchTerm);
     });
-    
-    function filterList(searchTerm){
+
+    function filterList(searchTerm) {
         let filteredStudents = students.filter(student => (student.id.toString().includes(searchTerm) || student.name.toLowerCase().includes(searchTerm)));
         displayStudentsCards(filteredStudents, filteredStudents.length);
     }
