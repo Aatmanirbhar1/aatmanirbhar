@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const loadingEle = document.getElementById("loading");
     let cropper;
     let students = [];
-    let isDev = true;
+    let isDev = false;
     const URL_PRODUCTION = 'https://script.google.com/macros/s/AKfycbyLYkcxRE5PzYFYufV42EG1WSz4zAuoP8M2fB0u1GpEZEJo6AqTSUApxGnLUoZzzAVpnQ/exec';
     const URL = "https://script.google.com/macros/s/AKfycbwvFkdNynv7uA3xAH7KzE4a8bHY-ebBJM1H_ld6vxA3/dev";
     const TOKEN = "ya29.a0AcM612xgsyIsFhn7TKlu_gf3B4dOTGXEAQ-9HwJYpN3wFtJ1_qNxqX_RVSjiAPlAf0X9DkUF3FpOC6biaVt_aNMvy1PkVYQp5WTaZRPZhTYnuObpLRDDEluTddBbbJ8vPsByKCcs0_-rG5rnTZosRT5ptb7XSM5_wEgmPvoNYgYaCgYKASASARASFQHGX2Mijk0TTbv-WWG_HHxgolvxWg0178";
