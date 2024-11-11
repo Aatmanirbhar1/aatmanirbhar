@@ -108,9 +108,13 @@ function renderStudentDetails(data) {
  */
 function createAttendanceCalendar(session) {
     const [start, , end, year] = session.split(" ");
-    const startIndex = monthNames.findIndex((month) => month.slice(0, 3) === start);
+    const endIndex = monthNames.findIndex((month) => month.slice(0, 3) === end);
+
     for (let i = 0; i < 3; i++) {
-        renderCalendar(+year, startIndex + i);
+        let endDate = new Date(parseInt(year), endIndex - i, 1)
+        //ignore if month is future months
+        if (endDate.getTime() > new Date().getTime()) continue;
+        renderCalendar(endDate.getFullYear(), endDate.getMonth());
     }
 }
 
