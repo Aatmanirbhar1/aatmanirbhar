@@ -1,0 +1,129 @@
+   /* Base styles */
+   body {
+       font-family: Arial, sans-serif;
+       margin: 20px;
+       color: #333;
+   }
+
+   .header {
+       text-align: center;
+       margin-bottom: 20px;
+   }
+
+   .header h1,
+   .header p {
+       margin: 5px;
+   }
+
+   .training-center {
+       font-size: 14px;
+       color: #444;
+   }
+
+   .batch-info {
+       font-size: 18px;
+       font-weight: bold;
+       color: #1e90ff;
+   }
+
+   .report-table {
+       width: 100%;
+       border-collapse: collapse;
+       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+   }
+
+   .report-table th,
+   .report-table td {
+       padding: 10px;
+       text-align: center;
+       border: 1px solid #ddd;
+   }
+
+   .report-table th {
+       background-color: #4b0082;
+       color: #fff;
+   }
+
+   .report-table td.rank {
+       font-weight: bold;
+       color: #4b0082;
+   }
+
+   .report-table td.name {
+       text-align: left;
+       font-size: 0.75rem;
+   }
+
+   .report-table td.attendance {
+       font-weight: bold;
+       color: #32cd32;
+   }
+
+   .report-table td.attendance.low {
+       color: #ff6347;
+   }
+
+   .actions {
+       margin-top: 20px;
+       text-align: center;
+   }
+
+   .button {
+       padding: 10px 15px;
+       margin: 5px;
+       font-size: 16px;
+       cursor: pointer;
+       border: none;
+       border-radius: 5px;
+       color: white;
+   }
+
+   .print-btn {
+       background-color: #1e90ff;
+   }
+
+   .share-btn {
+       background-color: #32cd32;
+   }
+
+   /* Loader styles */
+   .loader {
+       border: 8px solid #f3f3f3;
+       border-top: 8px solid #4b0082;
+       border-radius: 50%;
+       width: 60px;
+       height: 60px;
+       animation: spin 1s linear infinite;
+       margin: 50px auto;
+       display: none;
+       /* Hidden by default */
+   }
+
+   @keyframes spin {
+       0% {
+           transform: rotate(0deg);
+       }
+
+       100% {
+           transform: rotate(360deg);
+       }
+   }
+
+   /* Print layout adjustments */
+   @media print {
+       body {
+           margin: 0;
+           -webkit-print-color-adjust: exact;
+       }
+
+       .actions,
+       .loader {
+           display: none;
+           /* Hide buttons and loader during print */
+       }
+
+       .report-table th,
+       .report-table td {
+           padding: 4.75px;
+       }
+   }

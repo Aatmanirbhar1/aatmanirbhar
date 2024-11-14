@@ -9,6 +9,7 @@ const loadingEle = document.getElementById("loading");
 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 let dates = {};
+const BASE_URL = "https://script.google.com/macros/s/AKfycbyBanhiGhs7wcUDJUYI_MbEXKLoRWzUCvSI-ACC76GuVJb_eS96ssenJR5rVV3D_jaB/exec";
 
 // Event Listener
 form.addEventListener('submit', handleFormSubmit);
@@ -54,7 +55,7 @@ async function fetchStudentData(studentId) {
         redirect: "follow"
     };
 
-    fetch("https://script.google.com/macros/s/AKfycbyBanhiGhs7wcUDJUYI_MbEXKLoRWzUCvSI-ACC76GuVJb_eS96ssenJR5rVV3D_jaB/exec?stdId=" + studentId, requestOptions)
+    fetch(`${BASE_URL}?stdId=${studentId}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
             renderStudentDetails(result);
@@ -67,6 +68,7 @@ async function fetchStudentData(studentId) {
             loadingEle.style.display = 'none';
         });
 }
+
 
 /**
  * Render student details and calendar.
@@ -82,7 +84,7 @@ function renderStudentDetails(data) {
         "Student ID": data.studentId,
         "Admission Date": new Date(data.admissionDate).toLocaleString("en-IN", { year: "numeric", month: "long", day: "numeric", }),
         "Session": data.session,
-        "Batch": data.batch,
+        "Batch": `<a href="/student/report/?batch=${data.batch}" target="_blank">${data.batch}</a>`,
         "Name": data.name,
         "Present Days": data.presentDays,
         "Absent Days": data.absentDays,

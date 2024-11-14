@@ -4,27 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attendance Report</title>
+    <title>Attendance Report - AV Global</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <main>
-        <div class="head">
-            <h1>Aatmanirbhar Traning Centre</h1>
-            <h5>59, 2<sup>nd</sup> Floor, Madangir Village, near Charlie Fashion, New Delhi-110062</h5>
-        </div>
+    <!-- Loader -->
+    <div class="loader" id="loader"></div>
 
-        <select name="batch" id="batch-list">
-            <option value="b1">Batch1</option>
-        </select>
-        <div class="report-table">
+    <!-- Header -->
+    <div class="header">
+        <h1>Aatmanirbhar Training Center</h1>
+        <p class="training-center">59, 2nd Floor, Madangir Village, Opposite Charlie Fashion</p>
+        <p class="training-center">New Delhi – 110062, Mobile - 8920175991</p>
+        <p class="batch-info" id="session-info"></p>
+        <p class="training-center">Print Date : <span id="today"></span> </p>
+    </div>
 
-        </div>
-    </main>
+    <!-- Report Table -->
+    <table class="report-table" id="reportTable">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Student ID</th>
+                <th>Name</th>
+                <th>Present Days</th>
+                <th>Absent Days</th>
+                <th>Attendance %</th>
+            </tr>
+        </thead>
+        <tbody id="reportBody"></tbody>
+    </table>
 
-
+    <!-- Action Buttons -->
+    <div class="actions">
+        <button class="button print-btn" onclick="window.print()">Print</button>
+        <button class="button share-btn" onclick="shareReport()">Share</button>
+    </div>
+    <!-- Script includes -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="script.js"></script>
 </body>
 
