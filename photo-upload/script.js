@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }));
 
                 // Display the student list
-                displayStudentsCards(students, 150);
+                displayStudentsCards(students, 130);
 
             })
             .then(() => {
