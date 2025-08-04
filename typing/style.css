@@ -1,0 +1,221 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #6780b4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: #00004d;
+    height: 100vh;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px auto;
+}
+
+button:disabled {
+    background-color: #aaa;
+}
+
+button:disabled:hover {
+    background-color: #aaa;
+}
+
+#container {
+    background: white;
+    border-radius: 10px;
+    padding: 10px 10px;
+    max-width: 900px;
+    width: 80%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    margin: auto;
+}
+
+input[type="text"],
+select {
+    font-size: 16px;
+    padding: 5px 5px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.logo {
+    max-width: 150px;
+    height: auto;
+    margin-top: 0px;
+}
+
+
+.left-logo {
+    max-width: 200px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.right-logo {
+    max-width: 100px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+h1 {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    animation: glow 2s ease-in-out infinite alternate;
+    margin-top: 1px;
+}
+
+
+
+#typing-area {
+    background-color: #d6ecf3;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 5px;
+    font-size: 18px;
+    line-height: 1.6;
+    height: 150px;
+    /* updated from 80px */
+    overflow-y: auto;
+    /* So I can scroll if needed */
+    margin-bottom: 10px;
+    white-space: normal;
+    /* allow multi-line wrapping */
+    text-overflow: unset;
+}
+
+.top-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* This aligns labels and dropdowns in same line */
+    padding: 10px 20px;
+    background-color: #f9f9f9;
+}
+
+.time-select,
+.lesson-select {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Space between label and select */
+}
+
+
+#typing-area span {
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+.correct {
+    color: green;
+}
+
+.wrong {
+    color: red;
+}
+
+.current {
+    background-color: #d9d9d9;
+    color: black;
+}
+
+#inputArea {
+    width: 100%;
+    font-size: 20px;
+    padding: 10px;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+#bottom-section {
+    display: flex;
+    justify-content: space-between;
+    align-items:
+        center;
+    margin-top: 12px;
+}
+
+#timer {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    text-align: right;
+    margin-top: 2PX;
+    margin-Right: 22PX;
+}
+
+@keyframes flash {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+button {
+    background-color: #6780b4;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.5s ease;
+    margin-bottom: 1px;
+}
+
+button:hover {
+    background-color: #f39a1f;
+}
+
+
+#progressBar {
+    height: 10px;
+    background: #ddd;
+    border-radius: 10px;
+    margin-top: 15px;
+    overflow: hidden;
+}
+
+#progress {
+    height: 100%;
+    background-color: #f39a1f;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+#results {
+    font-size: 16px;
+    margin-top: 0px;
+}
+
+#inputArea:focus {
+    background-color: #fff9e6;
+    border: 2px solid #f39a1f;
+    animation: blinkGlow 1s infinite alternate;
+}
