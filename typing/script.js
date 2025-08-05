@@ -18,12 +18,16 @@ const lessons = {
 
 function startTest() {
 
-    // prevent from restart
-    document.getElementById('startTestBtn').disabled = true;
 
     const name = document.getElementById('nameInput').value.trim();
     const id = document.getElementById('idInput').value.trim();
     if (!name || !id) return alert("Enter both Name and ID!");
+
+    //hide form area
+    document.getElementById('form-area').style.display = 'none';
+
+    // prevent from restart
+    document.getElementById('startTestBtn').disabled = true;
 
     document.getElementById("typing-area").textContent = paragraph;
     document.getElementById("inputArea").value = "";
@@ -35,7 +39,6 @@ function startTest() {
     timeLeft = parseInt(document.getElementById("timeSelect").value);
     updateTimer();
     timerInterval = setInterval(() => {
-        console.log(timeLeft);
         timeLeft--;
         updateTimer();
         if (timeLeft <= 0) {
@@ -90,8 +93,6 @@ function handleKeyControl(e) {
 
         // Fallback if `lineHeight` is 'normal' or invalid
         const fallbackLineHeight = parseFloat(computedStyle.fontSize) * 1.2;
-
-        console.log({fallbackLineHeight, lineHeight});
 
         typingArea.scrollTop += (isNaN(lineHeight) ? fallbackLineHeight : lineHeight);
 
@@ -181,9 +182,9 @@ function checkTyping() {
         } else if (i === currentIndex) {
             // Current word (to be typed now)
             if (currentWord === "") {
-                display += `<span style='background:#add8e6;'>${originalWords[i]}</span> `;
+                display += `<span style='background:#2eccff;'>${originalWords[i]}</span> `;
             } else if (originalWords[i].startsWith(currentWord)) {
-                display += `<span style='background:#add8e6;'>${originalWords[i]}</span> `;
+                display += `<span style='background:#2eccff;'>${originalWords[i]}</span> `;
             } else {
                 display += `<span style='background:#ffcdd2;'>${originalWords[i]}</span> `;
             }
@@ -224,6 +225,9 @@ function manualSubmit() {
 }
 
 function showResult() {
+    //show form area
+    document.getElementById('form-area').style.display = 'block';
+
     const name = document.getElementById('nameInput').value.trim();
     const id = document.getElementById('idInput').value.trim();
     const typedText = document.getElementById("inputArea").value.trim();
@@ -276,4 +280,38 @@ function showResult() {
     link.href = URL.createObjectURL(blob);
     link.download = `${name}_${id}_TypingCertificate.txt`;
     link.click();
+}
+
+let fullScreen = false;
+function toggleFullScreen() {
+
+    if (!fullScreen) {
+        fullScreen = true;
+        document.querySelector('#toogleFullScreenBtn').src = 'assets/close_full_screen_icon.png'
+        const element = document.documentElement; // Fullscreen for the entire page
+        if (element.requestFullscreen) {
+            element.requestFullscreen();
+        } else if (element.mozRequestFullScreen) { // Firefox
+            element.mozRequestFullScreen();
+        } else if (element.webkitRequestFullscreen) { // Chrome, Safari, Opera
+            element.webkitRequestFullscreen();
+        } else if (element.msRequestFullscreen) { // IE/Edge
+            element.msRequestFullscreen();
+        }
+    } else {
+        fullScreen = false;
+        document.querySelector('#toogleFullScreenBtn').src = 'assets/full_screen_icon.png'
+
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) { // Firefox
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { // Chrome, Safari, Opera
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { // IE/Edge
+            document.msExitFullscreen();
+        }
+
+    }
+
 }

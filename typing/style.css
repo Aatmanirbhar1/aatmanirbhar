@@ -15,7 +15,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 10px auto;
+    margin: 5px auto;
 }
 
 button:disabled {
@@ -90,7 +90,7 @@ h1 {
     padding: 5px;
     font-size: 18px;
     line-height: 1.6;
-    height: 150px;
+    height: 250px;
     /* updated from 80px */
     overflow-y: auto;
     /* So I can scroll if needed */
