@@ -59,7 +59,8 @@
 			</div><br>
 
 			<div class="button-group">
-				<button title="Toggle Full Screen" onclick="toggleFullScreen()"><img id="toogleFullScreenBtn" src="assets/full_screen_icon.png" alt="full_screen_icon" width="15"></button>
+				<button title="Toggle Full Screen" onclick="toggleFullScreen()"><img id="toogleFullScreenBtn"
+						src="assets/full_screen_icon.png" alt="full_screen_icon" width="15"></button>
 				<button onclick="startTest()" id="startTestBtn">Start</button>
 				<button onclick="resetTest()">Reset</button>
 
@@ -67,11 +68,11 @@
 		</div>
 		<h3 id="timer">00:00</h3>
 
-		<div id="typing-area"></div>
-
-		<textarea id="inputArea" onkeydown="handleKeyControl(event)" placeholder="Start Typing Here...."
-			disabled></textarea>
-
+		<div class="typingDiv">
+			<div id="typing-area"></div>
+			<textarea id="inputArea" onkeydown="handleKeyControl(event)" placeholder="Start Typing Here...."
+				disabled></textarea>
+		</div>
 
 		<div id="progressBar">
 			<div id="progress"></div>
