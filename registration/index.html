@@ -4,59 +4,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Aatmanirbhar</title>
+    <title>Aatmanirbhar Training Centre Registration</title>
     <style>
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #eef4ff, #f9fbff);
+            color: #1f2937;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
         .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
+            max-width: 700px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0f4c81, #2563eb);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 15px;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        .content {
+            padding: 35px 25px;
             text-align: center;
         }
 
-        h1 {
-            color: #333;
+        .content h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: #111827;
         }
 
-        p {
-            font-size: 18px;
-            color: #555;
+        .content p {
+            font-size: 16px;
+            color: #6b7280;
+            margin-bottom: 30px;
         }
 
         .button-container {
+            display: grid;
+            gap: 18px;
             margin-top: 20px;
         }
 
         .button {
-            display: inline-block;
-            padding: 15px 25px;
-            margin: 10px;
-            background-color: #007BFF;
-            color: white;
+            display: block;
+            padding: 18px;
             text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            font-size: 17px;
+            font-weight: 600;
+            color: white;
+            border-radius: 14px;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.2);
         }
 
         .button:hover {
-            background-color: #0056b3;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 18px rgba(37, 99, 235, 0.3);
+        }
+
+        .footer {
+            background: #f9fafb;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+            font-size: 14px;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        .footer strong {
+            color: #111827;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @media (max-width: 600px) {
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .content h2 {
+                font-size: 20px;
+            }
+
             .button {
-                width: 100%;
-                padding: 15px;
                 font-size: 16px;
+                padding: 16px;
+            }
+
+            .footer {
+                font-size: 13px;
             }
         }
     </style>
@@ -64,13 +142,30 @@
 
 <body>
     <div class="container">
-        <h1>Aatmanirbhar Training Centre</h1>
-        <h5>59, 2nd Floor, Madangir Village, New Delhi, Mobile - 8920175991</h5>
-        <p>Select a batch to Register for Admission Test:</p>
-        <div class="button-container">
-            <a href="/registration/whs" class="button">Warehouse Supervisor</a>
-            <a href="/registration/ddeo" class="button">Domestic Data Entry Operator</a>
+
+        <div class="header">
+            <h1>Aatmanirbhar Training Centre</h1>
+            <p>
+                Empowering youth through skill development and career-focused training programs
+            </p>
         </div>
+
+        <div class="content">
+            <h2>Admission Test Registration</h2>
+            <p>Select your preferred course below to register for the admission test.</p>
+
+            <div class="button-container">
+                <a href="/registration/whs" class="button">Warehouse Supervisor</a>
+                <a href="/registration/ddeo" class="button">Digital Mitra (Data Entry)</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <strong>Training Centre Address:</strong><br>
+            59, 2nd Floor, Madangir Village, New Delhi – 110062<br>
+            <strong>Contact:</strong> +91 8920175991
+        </div>
+
     </div>
 </body>
 
