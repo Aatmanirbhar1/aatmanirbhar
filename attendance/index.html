@@ -4,26 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aatmanirbhar Attendance Records</title>
-    <style>
-        body{
-            height: 100svh;
-            width: 100vw;
-            border: none;
-            padding: 0;
-            margin: 0;
-        }
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        iframe{
-            height: 100%;
-            width: 100%;
-            border: none;
-        }
-    </style>
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .iframe-wrapper {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+    }
+</style>
 </head>
 <body>
     <!-- V2.0 -->
     <!-- <iframe src="https://script.google.com/macros/s/AKfycbwTGOzMGTE5s398JduqN4DeAbIaoDj4FVWPKiWzPv3HQQDhHRjJInIdWqIfSl71p6_YHQ/exec" frameborder="0"></iframe> -->
     <!-- V3.0 -->
-    <iframe src="https://script.google.com/macros/s/AKfycbyDIFj6Xs1JqVb0bz50WHdawiuc7ggZT5-T4Hg35-_81nqloBaIK_zTrokF0rbopjI64w/exec" frameborder="0"></iframe>
+    <iframe 
+    class="iframe-wrapper" 
+    src="https://script.google.com/macros/s/AKfycbyDIFj6Xs1JqVb0bz50WHdawiuc7ggZT5-T4Hg35-_81nqloBaIK_zTrokF0rbopjI64w/exec" 
+    frameborder="0"></iframe>
 </body>
 </html>
